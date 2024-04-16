@@ -1,30 +1,48 @@
-"use client"
-
-import * as z from "zod"
-import { useForm } from "react-hook-form";
-import { MessageSquare } from "lucide-react";
-import { zodResolver } from '@hookform/resolvers/zod'
-
+"use client";
 import Heading from "@/components/heading";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-
-import { formSchema } from "./constants";
 import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { formSchema } from "./constants";
+import axios from "axios";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MessageSquare } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ChatCompletionRequestMessage } from "openai";
 
 const ConversationPage = () => {
+    const router = useRouter();
+    const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            prompt: ""
-        }
-    })
-
-    const isLoading = form.formState.isSubmitting
-
+            prompt: "",
+        },
+    });
+    const isLoading = form.formState.isSubmitting;
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
-    }
+        try {
+            const userMessage: ChatCompletionRequestMessage = {
+                role: "user",
+                content: values.prompt
+            };
+            const newMessages = [...messages, userMessage]
+            const response = await axios.post("/api/conversation", {
+                messages: newMessages
+            })
+            setMessages((current) => [...current, userMessage, response.data]);
+            form.reset();
+        } catch (error: any) {
+            //ToDo: Open Pro model
+            console.log(error);
+        } finally {
+            router.refresh();
+        }
+    };
 
     return (
         <div>
@@ -67,7 +85,9 @@ const ConversationPage = () => {
                     </Form>
                 </div>
                 <div className="space-y-4 mt-4">
-                    Messages content
+                    <div className="flex flex-col-reverse gap-y-4">
+                        Message content
+                    </div>
                 </div>
             </div>
         </div>

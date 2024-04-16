@@ -4,9 +4,9 @@ import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
-})
+});
 
-const openai = new OpenAIApi(configuration)
+const openai = new OpenAIApi(configuration);
 
 export async function POST(req: Request) {
     try {
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
             return new NextResponse("Unauthorized", { status: 401 })
         }
 
-        if (!configuration.apiKey) {
+        if (!openai.apiKey) {
             return new Response("OpenAI key not configured", {
                 status: 500,
             });
