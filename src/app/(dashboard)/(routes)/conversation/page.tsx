@@ -1,48 +1,67 @@
-"use client";
+"use client"
+
+import { useState } from "react";
+
+import * as z from "zod"
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { MessageSquare } from "lucide-react";
+import { zodResolver } from '@hookform/resolvers/zod'
+
+import Empty from "@/components/empty";
+import Loader from "@/components/loader";
 import Heading from "@/components/heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import BotAvatar from "@/components/bot-avatar";
+import UserAvatar from "@/components/user-avatar";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+
 import { formSchema } from "./constants";
-import axios from "axios";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { MessageSquare } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { ChatCompletionRequestMessage } from "openai";
+
+type Message = {
+    role: 'user' | 'assistant',
+    content: string
+}
 
 const ConversationPage = () => {
-    const router = useRouter();
-    const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+    const router = useRouter()
+    const [messages, setMessages] = useState<Message[]>([])
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            prompt: "",
-        },
-    });
-    const isLoading = form.formState.isSubmitting;
+            prompt: ""
+        }
+    })
+
+    const isLoading = form.formState.isSubmitting
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const userMessage: ChatCompletionRequestMessage = {
-                role: "user",
+            debugger
+            const userMessage: Message = {
+                role: 'user',
                 content: values.prompt
-            };
+            }
+
             const newMessages = [...messages, userMessage]
-            const response = await axios.post("/api/conversation", {
+
+            const response = await axios.post('/api/conversation', {
                 messages: newMessages
             })
-            setMessages((current) => [...current, userMessage, response.data]);
-            form.reset();
+
+            setMessages((current) => [...current, userMessage, response.data])
+
+            form.reset()
         } catch (error: any) {
-            //ToDo: Open Pro model
-            console.log(error);
+            console.log(error)
         } finally {
-            router.refresh();
+            router.refresh()
         }
-    };
+    }
 
     return (
         <div>
@@ -84,9 +103,32 @@ const ConversationPage = () => {
                         </form>
                     </Form>
                 </div>
-                <div className="space-y-4 mt-4">
-                    <div className="flex flex-col-reverse gap-y-4">
-                        Message content
+                <div className="space-y-4 mt-4 pb-6">
+                    {isLoading && (
+                        <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
+                            <Loader />
+                        </div>
+                    )}
+                    {messages.length === 0 && !isLoading && (
+                        <Empty label="No conversation started." />
+                    )}
+                    <div className="flex flex-col gap-y-6 bg-zinc-700 text-white rounded-lg p-3.5">
+                        {messages.map((message) => (
+                            <div
+                                key={message.content}
+                                className="flex items-center gap-x-4"
+                            >
+                                {message.role === 'user' ? <UserAvatar /> : <BotAvatar />}
+                                <div className="">
+                                    <p className="font-bold">
+                                        {message.role === 'user' ? "You" : "Genius"}
+                                    </p>
+                                    <p>
+                                        {message.content}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
