@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import * as z from "zod"
 import axios from "axios";
-import { Music } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { VideoIcon } from "lucide-react";
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import Empty from "@/components/empty";
@@ -23,9 +23,9 @@ type Message = {
     content: string
 }
 
-const MusicGenerationPage = () => {
+const VideoGenerationPage = () => {
     const router = useRouter()
-    const [music, setMusic] = useState<string>()
+    const [video, setVideo] = useState<string>()
 
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -39,11 +39,11 @@ const MusicGenerationPage = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            setMusic(undefined)
+            setVideo(undefined)
 
-            const response = await axios.post('/api/music-generation', values)
+            const response = await axios.post('/api/video-generation', values)
 
-            setMusic(response.data.audio)
+            setVideo(response.data[0])
 
             form.reset()
         } catch (error: any) {
@@ -56,11 +56,11 @@ const MusicGenerationPage = () => {
     return (
         <div>
             <Heading
-                title="Music generation"
-                description="Turn your prompt into music."
-                icon={Music}
-                iconColor="text-emerald-500"
-                bgColor="bg-emerald-500/10"
+                title="Video generation"
+                description="Turn your prompt into video."
+                icon={VideoIcon}
+                iconColor="text-orange-700"
+                bgColor="bg-orange-700/10"
             />
             <div className="px-4 lg:px-8">
                 <div>
@@ -77,7 +77,7 @@ const MusicGenerationPage = () => {
                                             <Input
                                                 className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                                                 disabled={isLoading}
-                                                placeholder="Piano solo in C major"
+                                                placeholder="Clownfish swimming around coral reef"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -99,13 +99,13 @@ const MusicGenerationPage = () => {
                             <Loader />
                         </div>
                     )}
-                    {!music && !isLoading && (
-                        <Empty label="No music generated." />
+                    {!video && !isLoading && (
+                        <Empty label="No video generated." />
                     )}
-                    {music && (
-                        <audio controls className="w-full mt-8">
-                            <source src={music} />
-                        </audio>
+                    {video && (
+                        <video controls className="w-full aspect-video mt-8 rounded-lg border bg-black">
+                            <source src={video} />
+                        </video>
 
                     )}
                 </div>
@@ -114,4 +114,4 @@ const MusicGenerationPage = () => {
     );
 }
 
-export default MusicGenerationPage;
+export default VideoGenerationPage;
