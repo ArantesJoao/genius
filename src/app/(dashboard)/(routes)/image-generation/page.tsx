@@ -5,24 +5,26 @@ import { useState } from "react";
 import * as z from "zod"
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { Download, ImageIcon } from "lucide-react";
-import { zodResolver } from '@hookform/resolvers/zod'
 
+import Image from "next/image";
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import Heading from "@/components/heading";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import useProModal from "@/hooks/use-pro-modal";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Card, CardFooter } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardFooter } from "@/components/ui/card";
-import Image from "next/image";
 
 const ImageGeneration = () => {
     const router = useRouter()
+    const proModal = useProModal()
 
     const [images, setImages] = useState<string[]>([])
 
@@ -50,7 +52,9 @@ const ImageGeneration = () => {
 
             form.reset()
         } catch (error: any) {
-            console.log(error)
+            if (error?.response?.status === 403) {
+                proModal.onOpen()
+            }
         } finally {
             router.refresh()
         }

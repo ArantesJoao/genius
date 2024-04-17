@@ -4,22 +4,23 @@ import { useState } from "react";
 
 import * as z from "zod"
 import axios from "axios";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { Code } from "lucide-react";
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from "react-hook-form";
+import ReactMarkdown from "react-markdown";
 
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import Heading from "@/components/heading";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import BotAvatar from "@/components/bot-avatar";
+import useProModal from "@/hooks/use-pro-modal";
 import UserAvatar from "@/components/user-avatar";
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
 import { formSchema } from "./constants";
-import ReactMarkdown from "react-markdown";
 
 type Message = {
     role: 'user' | 'assistant',
@@ -28,6 +29,7 @@ type Message = {
 
 const CodePage = () => {
     const router = useRouter()
+    const proModal = useProModal()
     const [messages, setMessages] = useState<Message[]>([])
 
 
@@ -57,7 +59,9 @@ const CodePage = () => {
 
             form.reset()
         } catch (error: any) {
-            console.log(error)
+            if (error?.response?.status === 403) {
+                proModal.onOpen()
+            }
         } finally {
             router.refresh()
         }

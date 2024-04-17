@@ -8,12 +8,14 @@ import { MAX_FREE_GENERATIONS } from "@/consts"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent } from "@/components/ui/card"
+import useProModal from "@/hooks/use-pro-modal"
 
 interface FreeGenerationsCounterProps {
     apiLimitCount: number
 }
 
 const FreeGenerationsCounter = ({ apiLimitCount }: FreeGenerationsCounterProps) => {
+    const proModal = useProModal()
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
@@ -35,7 +37,7 @@ const FreeGenerationsCounter = ({ apiLimitCount }: FreeGenerationsCounterProps) 
                             value={(apiLimitCount / MAX_FREE_GENERATIONS) * 100}
                         />
                     </div>
-                    <Button variant="premium" className="w-full">
+                    <Button onClick={proModal.onOpen} variant="premium" className="w-full">
                         Upgrade
                         <Zap className="h-4 w-4 ml-2 fill-white" />
                     </Button>

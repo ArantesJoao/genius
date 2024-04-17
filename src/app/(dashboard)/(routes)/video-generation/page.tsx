@@ -4,27 +4,24 @@ import { useState } from "react";
 
 import * as z from "zod"
 import axios from "axios";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { VideoIcon } from "lucide-react";
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from "react-hook-form";
 
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
 import Heading from "@/components/heading";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import useProModal from "@/hooks/use-pro-modal";
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
 import { formSchema } from "./constants";
 
-type Message = {
-    role: 'user' | 'assistant',
-    content: string
-}
-
 const VideoGenerationPage = () => {
     const router = useRouter()
+    const proModal = useProModal()
     const [video, setVideo] = useState<string>()
 
 
@@ -47,7 +44,9 @@ const VideoGenerationPage = () => {
 
             form.reset()
         } catch (error: any) {
-            console.log(error)
+            if (error?.response?.status === 403) {
+                proModal.onOpen()
+            }
         } finally {
             router.refresh()
         }
