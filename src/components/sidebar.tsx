@@ -7,9 +7,15 @@ import { routes } from "@/consts";
 import { Montserrat } from "next/font/google";
 import { usePathname } from "next/navigation";
 
+import FreeGenerationsCounter from "./free-generations-counter";
+
 const monsterrat = Montserrat({ weight: '600', subsets: ['latin'] });
 
-const Sidebar = () => {
+interface SidebarProps {
+    apiLimitCount: number
+}
+
+const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
     const pathname = usePathname()
 
     return (
@@ -43,6 +49,7 @@ const Sidebar = () => {
                     ))}
                 </div>
             </div>
+            <FreeGenerationsCounter apiLimitCount={apiLimitCount} />
         </div >
     );
 }
