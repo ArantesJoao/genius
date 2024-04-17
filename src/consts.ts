@@ -96,3 +96,5 @@ export const tools: toolsType[] = [
         href: "/code-generation",
     },
 ];
+
+export const MAX_FREE_GENERATIONS = 5
