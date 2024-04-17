@@ -14,8 +14,6 @@ import Loader from "@/components/loader";
 import Heading from "@/components/heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import BotAvatar from "@/components/bot-avatar";
-import UserAvatar from "@/components/user-avatar";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
