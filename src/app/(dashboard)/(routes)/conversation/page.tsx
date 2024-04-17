@@ -41,7 +41,6 @@ const ConversationPage = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            debugger
             const userMessage: Message = {
                 role: 'user',
                 content: values.prompt
