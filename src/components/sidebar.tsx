@@ -13,9 +13,10 @@ const monsterrat = Montserrat({ weight: '600', subsets: ['latin'] });
 
 interface SidebarProps {
     apiLimitCount: number
+    isPro: boolean
 }
 
-const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
+const Sidebar = ({ apiLimitCount = 0, isPro = false }: SidebarProps) => {
     const pathname = usePathname()
 
     return (
@@ -49,7 +50,7 @@ const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
                     ))}
                 </div>
             </div>
-            <FreeGenerationsCounter apiLimitCount={apiLimitCount} />
+            <FreeGenerationsCounter apiLimitCount={apiLimitCount} isPro={isPro} />
         </div >
     );
 }

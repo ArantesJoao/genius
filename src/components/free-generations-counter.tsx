@@ -12,9 +12,10 @@ import useProModal from "@/hooks/use-pro-modal"
 
 interface FreeGenerationsCounterProps {
     apiLimitCount: number
+    isPro: boolean
 }
 
-const FreeGenerationsCounter = ({ apiLimitCount }: FreeGenerationsCounterProps) => {
+const FreeGenerationsCounter = ({ apiLimitCount, isPro = false }: FreeGenerationsCounterProps) => {
     const proModal = useProModal()
     const [isMounted, setIsMounted] = useState(false)
 
@@ -23,6 +24,8 @@ const FreeGenerationsCounter = ({ apiLimitCount }: FreeGenerationsCounterProps) 
     })
 
     if (!isMounted) return null
+
+    if (isPro) return null
 
     return (
         <div className="px-3">
