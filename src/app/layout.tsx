@@ -13,6 +13,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
     title: 'Genius',
     description: 'AI Platform',
+    icons: {
+        icon: '/favicon.png',
+    },
 }
 
 export default function RootLayout({

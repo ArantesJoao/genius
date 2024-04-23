@@ -1,4 +1,5 @@
 import { Code, ImageIcon, LayoutDashboard, LucideIcon, MessageSquare, Music, Settings, Video, VideoIcon } from "lucide-react";
+import { title } from "process";
 
 export type routesType = {
     label: string;
@@ -98,3 +99,30 @@ export const tools: toolsType[] = [
 ];
 
 export const MAX_FREE_GENERATIONS = 5
+
+export const testimonials = [
+    {
+        name: "John Doe",
+        avatar: "J",
+        title: "Software Engineer",
+        description: "This is the best AI tool I've ever used! Everything in one place!",
+    },
+    {
+        name: "Arthur Doe",
+        avatar: "A",
+        title: "College Student",
+        description: "Genius helps me a lot on my essays!",
+    },
+    {
+        name: "Jane Doe",
+        avatar: "J",
+        title: "Product Manager",
+        description: "This helps me a lot to create new tasks in the projects I run!",
+    },
+    {
+        name: "Emily Smith",
+        avatar: "E",
+        title: "Data Scientist",
+        description: "The insights provided by Genius are incredibly accurate and save me hours of analysis!",
+    }
+]

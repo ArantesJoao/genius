@@ -21,7 +21,7 @@ const FreeGenerationsCounter = ({ apiLimitCount, isPro = false }: FreeGeneration
 
     useEffect(() => {
         setIsMounted(true)
-    })
+    }, [])
 
     if (!isMounted) return null
 

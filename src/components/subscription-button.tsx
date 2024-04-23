@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import axios from "axios";
 import { Zap } from "lucide-react";
+import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
 
 interface SubscriptionButtonProps {
     isPro: boolean
