@@ -1,34 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Genius
 
-## Getting Started
+Welcome to Genius, my AI SaaS project designed to showcase my skills and the potential of modern web and AI technologies. I've built this application using a robust stack including Clerk, Shadcn, Stripe, React, Next.js, OpenAI, and Replicate.
 
-First, run the development server:
+## Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Experience Genius firsthand by visiting [Genius](https://genius-joo-vctor-arantes-projects.vercel.app/). Here, you can create an account, explore the functionalities, or even sign up for the Pro plan.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Account Creation and Pro Plan
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Feel free to register a new account (I am using Clerk in the authentication process) to personalize your experience. If you're interested in additional features, signing up for the Pro plan is a great way to see everything Genius can offer.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Testing Payments
 
-## Learn More
+The Stripe payment gateway is in test mode, so you can safely enter payment details without any real transactions occurring. Use the default Stripe example card for testing:
 
-To learn more about Next.js, take a look at the following resources:
+- **Card Number:** 4242 4242 4242 4242
+- **Expiration Date:** 05/55
+- **CVV:** 555
+- **Name:** [Any name]
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project was developed as part of a guided coding experience with [Code With Antonio](https://www.codewithantonio.com/projects/ai-saas), enhancing my learning and application of these technologies.
